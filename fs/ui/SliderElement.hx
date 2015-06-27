@@ -10,6 +10,8 @@ import aze.display.TileSprite;
  */
 class SliderElement extends UIObject
 {
+	static public var TYPE : String = "SliderElement";
+	
 	/*
 	 * Animation ended event.
 	 * */
@@ -21,7 +23,7 @@ class SliderElement extends UIObject
 	
 	public function new(id : String,tileLayer : TileLayer,x : Float,y : Float,spriteName : String,onPressHandlerName : String) 
 	{
-		super(NAME, id, tileLayer, x, y, onPressHandlerName);
+		super(TYPE,NAME, id, tileLayer, x, y, onPressHandlerName);
 		
 		this.spriteName = spriteName;
 		this.sprite = new TileSprite(tileLayer, spriteName);

@@ -21,11 +21,13 @@ class Slider extends UIObject
 {
 	static public var NAME : String = "UISlider";
 	static public var XML : String = "slider";
-	static public var MIN_SPEED : Float;
-	static public var MOVING_THRESHOLD : Float;
-	static public var TITLE_SIZE : Int;
 	
+	private var center : Float;
 	private var maxSpeed : Float;
+	private var minSpeed : Float;
+	private var maxLimit : Float;
+	private var minLimit : Float;
+	private var movingThreshold : Float;
 	private var changedPos : Bool;
 	private var lastMouseX : Float;
 	private var dragPos : Float;
@@ -39,17 +41,11 @@ class Slider extends UIObject
 	private var currentElement : Int;
 	private var pagers : Array<PagerButton>;
 	private var previousElement : Int;
-	
 	private var mousePos : Float;
 	private var groupTrans : TileGroupTransform;
 	private var speed : Float;
 	private var currentPage: Int;
-	private var backTitle : TextField;
-	private var title : TextField;
-	private var hasTitle : Bool;
 	private var hasPager : Bool;
-	private var titleX : Float;
-	private var titleY : Float;
 	private var pagerX : Float;
 	private var pagerY : Float;
 	private var pagerSeparation : Float;
@@ -57,25 +53,27 @@ class Slider extends UIObject
 	private var isSliding : Bool;
 	private var downCursor : Int;
 	
-	public function new(id : String,tileLayer : TileLayer, x : Float,y : Float,pages : Array<SliderPage>,onPressHandlerName : String = "", initialPage : Int = 1, hasTitle : Bool = false, titleX : Float = 0,titleY : Float = 0,hasPager : Bool = false, pagerX : Float = 0,pagerY : Float = 0, pagerSeparation : Float = 0) 
+	public function new(id : String,tileLayer : TileLayer, x : Float,y : Float,pages : Array<SliderPage>,onPressHandlerName : String = "",minLimit : Float = 0,maxLimit : Float = 0,minSpeed : Float = 0,maxSpeed : Float = 0,movingThreshold : Float = 0, initialPage : Int = 1,hasPager : Bool = false, pagerX : Float = 0,pagerY : Float = 0, pagerSeparation : Float = 0) 
 	{
 		super(NAME,NAME, id, tileLayer, x, y, onPressHandlerName);
 		
 		var pager : PagerButton;
 		var auxX : Float;
-		
-		TITLE_SIZE = Helper.FixIntScale2Screen(50);
-		
+	
+		this.minLimit = minLimit;
+		this.maxLimit = maxLimit;
+		this.minSpeed = minSpeed;
+		this.maxSpeed = maxSpeed;
+		this.movingThreshold = movingThreshold;
 		this.initialX = x;
 		this.initialY = y;
-		this.hasTitle = hasTitle;
-		this.titleX = titleX;
-		this.titleY = titleY;
 		this.pages = pages;
 		this.hasPager = hasPager;
 		this.pagerX = pagerX;
 		this.pagerY = pagerY;
 		this.pagerSeparation = pagerSeparation;
+		
+		center = (maxLimit - minLimit) / 2;
 		
 		if (hasPager)
 		{
@@ -91,7 +89,8 @@ class Slider extends UIObject
 			if (hasPager)
 			{
 				pager = new PagerButton(Std.string(p.GetNumber()), tileLayer, auxX, pagerY, p.GetNumber(), initialPage == p.GetNumber(), "");
-				pager.SetScale(Helper.GetFixScale());
+				//TODO: check this
+				//pager.SetScale(Helper.GetFixScale());
 				pagers.push(pager);
 				pagersGroup.addChild(pager);
 				
@@ -108,22 +107,10 @@ class Slider extends UIObject
 		currentPage = initialPage;
 		direction = None;
 		
-		MIN_SPEED = Helper.FixFloat2ScreenX(1);
-		MOVING_THRESHOLD = Helper.FixFloat2ScreenX(80);
-		maxSpeed = Helper.FixFloat2ScreenX(50);
-		
 		this.x = initialX - pages[currentPage].x;
 		
 		initialPos = this.x;
 		
-		if (hasTitle)
-		{
-			title = Helper.CreateText(Globals.HAND_OF_SEAN_FONT.fontName, "", TITLE_SIZE, 0xffffff, 3,new Point(titleX,titleY));
-			backTitle = Helper.CreateText(Globals.HAND_OF_SEAN_FONT.fontName, "", TITLE_SIZE, 0x141d4c, 3,new Point(titleX,titleY));
-			tileLayer.view.addChild(backTitle);
-			tileLayer.view.addChild(title);
-		}
-
 		downCursor = -1;
 		
 		//
@@ -148,35 +135,6 @@ class Slider extends UIObject
 	{
 		return isSliding;
 	}
-	
-	private function UpdateTitle() : Void
-	{
-		if (hasTitle)
-		{
-			title.text = pages[currentPage].GetTitle();
-			title.x = titleX - title.width/2;
-			title.y = titleY  - title.height / 2;
-			
-			backTitle.text = pages[currentPage].GetTitle();
-			backTitle.x = titleX - title.width/2 - Helper.FixFloat2ScreenX(3);
-			backTitle.y = titleY  - title.height/2  - Helper.FixFloat2ScreenY(3);
-		}
-		
-		if (hasPager)
-		{
-			for (i in 0...pagers.length)
-			{
-				if (i == currentPage)
-					pagers[i].Select();
-				else
-					pagers[i].DeSelect();
-			}
-			
-		}
-		
-		//Mejorar esto
-		SetIsCurrentPage();
-	}
 
 	override public function Update(gameTime:Float):Void 
 	{
@@ -185,7 +143,7 @@ class Slider extends UIObject
 		switch(direction)
 		{
 			case Left:
-				if (pages[currentPage].GetX() <= Globals.SCREEN_WIDTH/2)
+				if (pages[currentPage].GetX() <= center)
 				{
 					speed = 0;
 					x = initialX - pages[currentPage].x;
@@ -194,10 +152,10 @@ class Slider extends UIObject
 					//pages[currentPage].DoCurrentEffect();
 				}
 				else
-					speed = -(MIN_SPEED + Math.abs((maxSpeed * ((Globals.SCREEN_WIDTH/2) - pages[currentPage].GetX())) / (Globals.SCREEN_WIDTH / 2)));
+					speed = -(minSpeed + Math.abs((maxSpeed * ((center) - pages[currentPage].GetX())) / (center)));
 					
 			case Right:
-				if (pages[currentPage].GetX() >= Globals.SCREEN_WIDTH/2)
+				if (pages[currentPage].GetX() >= center)
 				{
 					speed = 0;
 					x = initialX - pages[currentPage].x;
@@ -206,7 +164,7 @@ class Slider extends UIObject
 					//pages[currentPage].DoCurrentEffect();
 				}
 				else
-					speed = MIN_SPEED + (Math.abs((maxSpeed * ((Globals.SCREEN_WIDTH/2) - pages[currentPage].GetX())) / (Globals.SCREEN_WIDTH /2)));
+					speed = minSpeed + (Math.abs((maxSpeed * ((center) - pages[currentPage].GetX())) / (center)));
 			case None:
 		}
 		
@@ -217,11 +175,11 @@ class Slider extends UIObject
 			p.Update(gameTime);
 	}
 	
-	public function GetElements() : Array<Button>
+	public function GetElements() : Array<SliderPageButton>
 	{
-		var buttons : Array<Button>;
+		var buttons : Array<SliderPageButton>;
 		
-		buttons = new Array<Button>();
+		buttons = new Array<SliderPageButton>();
 		
 		for (p in pages)
 		{
@@ -237,7 +195,6 @@ class Slider extends UIObject
 		this.x = initialX - pages[currentPage].x;
 		initialPos = this.x;
 		SetIsCurrentPage();
-		UpdateTitle();
 	}
 	
 	public function SetIsCurrentPage() : Void
@@ -257,58 +214,62 @@ class Slider extends UIObject
 
 		if(downCursor == cursorId)
 		{
-			spd = MIN_SPEED + Math.abs(((maxSpeed * pages[currentPage].GetX()) / (Globals.SCREEN_WIDTH / 2)));
+			spd = minSpeed + Math.abs(((maxSpeed * pages[currentPage].GetX()) / (center)));
 
 			//Center
-			if (pages[currentPage].GetX() == Globals.SCREEN_WIDTH / 2)
+			if (pages[currentPage].GetX() == center)
 				pages[currentPage].HandleMouseUp(mousePos, caller, isCursorDown);
 			//Right
-			else if(pages[currentPage].GetX() > Globals.SCREEN_WIDTH / 2)
+			else if(pages[currentPage].GetX() > center)
 			{
 				//Touched
-				if (Math.abs(dragPos - mousePos.x) <= MOVING_THRESHOLD/8)
+				if (Math.abs(dragPos - mousePos.x) <= movingThreshold)
 					pages[currentPage].HandleMouseUp(mousePos,caller,isCursorDown);
 
-				if (pages[currentPage].GetX() <= (Globals.SCREEN_WIDTH / 2) + MOVING_THRESHOLD)
+				if (pages[currentPage].GetX() <= center + movingThreshold)
 				{
-					speed = Helper.FixFloat2ScreenX(-spd);
+					//TODO: check this
+					//speed = Helper.FixFloat2ScreenX(-spd);
 					direction = Left;
 				}
 				else
 				{
 					if (currentPage - 1 >= 0)
 					{
-						if (pages[currentPage].GetX() >= Globals.SCREEN_WIDTH)
+						if (pages[currentPage].GetX() >= maxLimit)
 						{
-							speed = Helper.FixFloat2ScreenX(-spd);
+							//TODO: check this
+							//speed = Helper.FixFloat2ScreenX(-spd);
 							direction = Left;
 						}
 						else
 						{
-							speed = Helper.FixFloat2ScreenX(spd);
+							//TODO: check this
+							//speed = Helper.FixFloat2ScreenX(spd);
 							direction = Right;
 						}
 
 						currentPage--;
-						UpdateTitle();
 					}
 					else
 					{
-						speed = Helper.FixFloat2ScreenX(-spd);
+						//TODO: check this
+						//speed = Helper.FixFloat2ScreenX(-spd);
 						direction = Left;
 					}
 				}
 			}
 			//Left
-			else if(pages[currentPage].GetX() < Globals.SCREEN_WIDTH / 2)
+			else if(pages[currentPage].GetX() < center)
 			{
 				//Touched
-				if (Math.abs(dragPos - mousePos.x) <= MOVING_THRESHOLD/8)
+				if (Math.abs(dragPos - mousePos.x) <= movingThreshold)
 					pages[currentPage].HandleMouseUp(mousePos,caller,isCursorDown);
 
-				if (pages[currentPage].GetX() >= (Globals.SCREEN_WIDTH / 2) - MOVING_THRESHOLD)
+				if (pages[currentPage].GetX() >= (center) - movingThreshold)
 				{
-					speed = Helper.FixFloat2ScreenX(spd);
+					//TODO: check this
+					//speed = Helper.FixFloat2ScreenX(spd);
 					direction = Right;
 				}
 				else
@@ -317,21 +278,23 @@ class Slider extends UIObject
 					{
 						if (pages[currentPage].GetX() <= 0)
 						{
-							speed = Helper.FixFloat2ScreenX(spd);
+							//TODO: check this
+							//speed = Helper.FixFloat2ScreenX(spd);
 							direction = Right;
 						}
 						else
 						{
-							speed = Helper.FixFloat2ScreenX(-spd);
+							//TODO: check this
+							//speed = Helper.FixFloat2ScreenX(-spd);
 							direction = Left;
 						}
 
 						currentPage++;
-						UpdateTitle();
 					}
 					else
 					{
-						speed = Helper.FixFloat2ScreenX(spd);
+						//TODO: check this
+						//speed = Helper.FixFloat2ScreenX(spd);
 						direction = Right;
 					}
 				}

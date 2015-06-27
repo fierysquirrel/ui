@@ -5,6 +5,7 @@ import aze.display.TileGroup;
 import aze.display.TileLayer;
 import flash.geom.Point;
 import flash.text.TextField;
+import fs.helper.MathHelper;
 
 
 /**
@@ -15,7 +16,7 @@ class SliderPage extends TileGroup
 {	
 	static public var NAME : String = "UISliderPager";
 	static public var XML : String = "page";
-	private var elements : Array<MapButton>;
+	private var elements : Array<SliderPageButton>;
 	private var number : Int;
 	private var trans : TileGroupTransform;
 	private var title : String;
@@ -29,7 +30,7 @@ class SliderPage extends TileGroup
 		this.title = title;
 		this.x = x;
 		this.y = y;
-		elements = new Array<MapButton>();
+		elements = new Array<SliderPageButton>();
 		trans = new TileGroupTransform(this);
 	}
 	
@@ -54,7 +55,7 @@ class SliderPage extends TileGroup
 		return number;
 	}
 	
-	public function AddElement(e : MapButton) : Void
+	public function AddElement(e : SliderPageButton) : Void
 	{
 		elements.push(e);
 		addChild(e);
@@ -64,7 +65,7 @@ class SliderPage extends TileGroup
 	{
 		return slider;
 	}
-	public function GetElements() : Array<MapButton>
+	public function GetElements() : Array<SliderPageButton>
 	{
 		return elements;
 	}
@@ -115,7 +116,7 @@ class SliderPage extends TileGroup
 		{
 			if (m.GetState() == UIObject.State.Pressed)
 			{
-				isMove = Helper.PointOutsideRectangle(mousePos, new Point(GetX() + m.x, GetY() + m.y), m.width, m.height);
+				isMove = MathHelper.PointOutsideRectangle(mousePos, new Point(GetX() + m.x, GetY() + m.y), m.width, m.height);
 				if (isMove && !isCursorDown)
 					m.ChangeState(UIObject.State.Active);
 			}
@@ -131,7 +132,7 @@ class SliderPage extends TileGroup
 			isDown = false;
 			if (m.GetState() != UIObject.State.Disabled)
 			{
-				isDown = Helper.PointInsideRectangle(mousePos, new Point(GetX() + m.x, GetY() + m.y), m.width, m.height);
+				isDown = MathHelper.PointInsideRectangle(mousePos, new Point(GetX() + m.x, GetY() + m.y), m.width, m.height);
 				
 				if (isDown && !isCursorDown)
 					m.ChangeState(Pressed);
@@ -148,7 +149,7 @@ class SliderPage extends TileGroup
 			isUp = false;
 			if (m.GetState() == UIObject.State.Pressed)
 			{
-				isUp = Helper.PointInsideRectangle(mousePos, new Point(GetX() + m.x, GetY() + m.y), m.width, m.height);
+				isUp = MathHelper.PointInsideRectangle(mousePos, new Point(GetX() + m.x, GetY() + m.y), m.width, m.height);
 				
 				if (isUp && !isCursorDown)
 				{
@@ -157,7 +158,8 @@ class SliderPage extends TileGroup
 					//We call the function that is defined in the inherited class and specified in the XML
 					if (m.GetActionHandlerName() != "")
 					{
-						Helper.PlaySound(Globals.CLICK_UI_OBJECT_SOUND);
+						//TODO: Change this, customize it
+						//Helper.PlaySound(Globals.CLICK_UI_OBJECT_SOUND);
 						m.OnActionHandler();
 						Reflect.callMethod(caller, Reflect.field(caller, m.GetActionHandlerName()), [m]);
 					}

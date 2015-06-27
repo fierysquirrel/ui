@@ -31,13 +31,14 @@ class PagerButton extends Button
 		
 		this.selected = selected;
 		this.number = number;
-		if (selected)
+		//TODO: create a an effect system
+		/*if (selected)
 			SetScale(SELECTED_SCALE * Helper.GetFixScale());
 		else
 		{
 			SetScale(DESELECTED_SCALE * Helper.GetFixScale());
 			SetAlpha(DESELECTED_ALPHA);
-		}
+		}*/
 			
 		activeSprite.r = 1;
 		activeSprite.g = 1;
@@ -57,7 +58,8 @@ class PagerButton extends Button
 	
 	public function Select() : Void
 	{
-		SetScale(SELECTED_SCALE * Helper.GetFixScale());
+		//TODO: create a an effect system
+		//SetScale(SELECTED_SCALE * Helper.GetFixScale());
 		SetAlpha(SELECTED_ALPHA);
 		
 		selected = true;
@@ -65,7 +67,8 @@ class PagerButton extends Button
 	
 	public function DeSelect() : Void
 	{
-		SetScale(DESELECTED_SCALE * Helper.GetFixScale());
+		//TODO: create a an effect system
+		//SetScale(DESELECTED_SCALE * Helper.GetFixScale());
 		SetAlpha(DESELECTED_ALPHA);
 		
 		selected = false;
