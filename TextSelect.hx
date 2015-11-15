@@ -1,11 +1,11 @@
-package fs.ui;
+package;
 
 import aze.display.TileLayer;
 import flash.geom.Point;
 import flash.geom.ColorTransform;
 import flash.text.Font;
 import flash.text.TextField;
-import fs.helper.MathHelper;
+
 
 /**
  * ...
@@ -20,7 +20,7 @@ class TextSelect extends Select
 	private var activeTxtColor : ColorTransform;
     private var pressTxtColor : ColorTransform;
 	
-	public function new(id : String, tileLayer : TileLayer, x : Float, y : Float, onPressHandlerName : String, options : Array<Option>,currentOption : Int, font : Font = null, size : Int = 0, activeColor : Int = 0xFFFFFF, pressColor : Int = 0xFFFFFF, activeSprite : String, pressSprite : String, letterSpacing : Int = 0) 
+	public function new(id : String, tileLayer : TileLayer, x : Float, y : Float,fontId : String, onPressHandlerName : String, options : Array<Option>,currentOption : Int, font : Font = null, size : Int = 0, activeColor : Int = 0xFFFFFF, pressColor : Int = 0xFFFFFF, activeSprite : String, pressSprite : String, letterSpacing : Int = 0) 
 	{
 		super(NAME,id, tileLayer, x, y, onPressHandlerName,options,currentOption,activeColor,pressColor,activeSprite,pressSprite);
 		
@@ -33,9 +33,8 @@ class TextSelect extends Select
 		
 		if (currentOption >= 0 && currentOption < options.length)
 		{
-			//TODO: Revisar esto
-			//textField = Helper.CreateText(font.fontName, Helper.Translate(options[currentOption].GetName()), size, activeColor,letterSpacing,new Point(x,y));
-			//tileLayer.view.addChild(textField);
+			textField = TextManager.CreateText(fontId, options[currentOption].GetValue(),new Point(x,y),size, activeColor);
+			tileLayer.view.addChild(textField);
 		}
 	}
 	
@@ -60,8 +59,8 @@ class TextSelect extends Select
 	override public function ChangeCurrentOption(option:String):Void 
 	{
 		super.ChangeCurrentOption(option);
-		//TODO:revisar
-		//textField.text = Helper.Translate(options[currentOption].GetName());
+		
+		textField.text = options[currentOption].GetValue();
 	}
 	
 	override public function OnActionHandler():Void 
@@ -72,8 +71,7 @@ class TextSelect extends Select
 			currentOption++;
 		else
 			currentOption = 0;
-			
-		//TODO: revisar
-		//textField.text = Helper.Translate(options[currentOption].GetName());
+		
+		textField.text = options[currentOption].GetValue();
 	}
 }

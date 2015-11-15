@@ -1,11 +1,11 @@
-package fs.ui;
+package;
 
 import aze.display.TileLayer;
 import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.geom.Rectangle;
 import aze.display.TileSprite;
-import fs.helper.MathHelper;
+
 
 /**
  * ...

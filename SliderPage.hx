@@ -1,12 +1,10 @@
-package fs.ui;
+package;
 
 import aze.display.behaviours.TileGroupTransform;
 import aze.display.TileGroup;
 import aze.display.TileLayer;
 import flash.geom.Point;
 import flash.text.TextField;
-import fs.helper.MathHelper;
-
 
 /**
  * ...
@@ -78,8 +76,6 @@ class SliderPage extends TileGroup
 			res = x;
 		else
 			res = parent.x + x;
-			
-		//trace("conio:" + parent.x + " xxx:" + x);
 			
 		return res;
 	}

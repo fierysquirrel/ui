@@ -1,4 +1,4 @@
-package fs.ui;
+package;
 
 import aze.display.behaviours.TileGroupTransform;
 import aze.display.TileGroup;
@@ -52,8 +52,9 @@ class Slider extends UIObject
 	private var pagersGroup : TileGroup;
 	private var isSliding : Bool;
 	private var downCursor : Int;
+	private var title : SliderTitle;
 	
-	public function new(id : String,tileLayer : TileLayer, x : Float,y : Float,pages : Array<SliderPage>,onPressHandlerName : String = "",minLimit : Float = 0,maxLimit : Float = 0,minSpeed : Float = 0,maxSpeed : Float = 0,movingThreshold : Float = 0, initialPage : Int = 1,hasPager : Bool = false, pagerX : Float = 0,pagerY : Float = 0, pagerSeparation : Float = 0) 
+	public function new(id : String,tileLayer : TileLayer, x : Float,y : Float,pages : Array<SliderPage>,onPressHandlerName : String = "",minLimit : Float,maxLimit : Float,minSpeed : Float,maxSpeed : Float,movingThreshold : Float,title : SliderTitle = null, initialPage : Int = 1,hasPager : Bool = false, pagerX : Float = 0,pagerY : Float = 0, pagerSeparation : Float = 0) 
 	{
 		super(NAME,NAME, id, tileLayer, x, y, onPressHandlerName);
 		
@@ -74,6 +75,8 @@ class Slider extends UIObject
 		this.pagerSeparation = pagerSeparation;
 		
 		center = (maxLimit - minLimit) / 2;
+		
+		this.title = title;
 		
 		if (hasPager)
 		{
@@ -98,8 +101,11 @@ class Slider extends UIObject
 			}
 		}
 		
-		pagersGroup.x += pagerX - (auxX - pagerSeparation)/2;
-		tileLayer.addChild(pagersGroup);
+		if (hasPager)
+		{
+			pagersGroup.x += pagerX - (auxX - pagerSeparation)/2;
+			tileLayer.addChild(pagersGroup);
+		}
 			
 		groupTrans = new TileGroupTransform(this);
 		
@@ -111,10 +117,24 @@ class Slider extends UIObject
 		
 		initialPos = this.x;
 		
+		if (title != null)
+			title.LoadContent(tileLayer);
+		
 		downCursor = -1;
+		
+		title.ChangeText(pages[currentPage].GetTitle());
+		UpdatePagers();
 		
 		//
 		SetIsCurrentPage();
+	}
+	
+	override public function SetScale(value:Float):Void 
+	{
+		super.SetScale(value);
+		
+		for (p in pagers)
+			p.SetScale(value);
 	}
 	
 	override public function LoadContent():Void 
@@ -173,6 +193,25 @@ class Slider extends UIObject
 		//Update
 		for (p in pages)
 			p.Update(gameTime);
+			
+		
+		if(title != null)
+			title.ChangeText(pages[currentPage].GetTitle());
+	}
+	
+	public function UpdatePagers() : Void
+	{
+		if (hasPager)
+		{
+			for (i in 0...pagers.length)
+			{
+				if (i == currentPage)
+					pagers[i].Select();
+				else
+					pagers[i].DeSelect();
+			}
+			
+		}
 	}
 	
 	public function GetElements() : Array<SliderPageButton>
@@ -195,6 +234,7 @@ class Slider extends UIObject
 		this.x = initialX - pages[currentPage].x;
 		initialPos = this.x;
 		SetIsCurrentPage();
+		UpdatePagers();
 	}
 	
 	public function SetIsCurrentPage() : Void
@@ -229,7 +269,7 @@ class Slider extends UIObject
 				if (pages[currentPage].GetX() <= center + movingThreshold)
 				{
 					//TODO: check this
-					//speed = Helper.FixFloat2ScreenX(-spd);
+					speed = -spd;
 					direction = Left;
 				}
 				else
@@ -239,22 +279,24 @@ class Slider extends UIObject
 						if (pages[currentPage].GetX() >= maxLimit)
 						{
 							//TODO: check this
-							//speed = Helper.FixFloat2ScreenX(-spd);
+							speed = -spd;
 							direction = Left;
 						}
 						else
 						{
 							//TODO: check this
-							//speed = Helper.FixFloat2ScreenX(spd);
+							speed = spd;
 							direction = Right;
 						}
 
 						currentPage--;
+						SetIsCurrentPage();
+						UpdatePagers();
 					}
 					else
 					{
 						//TODO: check this
-						//speed = Helper.FixFloat2ScreenX(-spd);
+						speed = -spd;
 						direction = Left;
 					}
 				}
@@ -269,7 +311,7 @@ class Slider extends UIObject
 				if (pages[currentPage].GetX() >= (center) - movingThreshold)
 				{
 					//TODO: check this
-					//speed = Helper.FixFloat2ScreenX(spd);
+					speed = spd;
 					direction = Right;
 				}
 				else
@@ -279,22 +321,24 @@ class Slider extends UIObject
 						if (pages[currentPage].GetX() <= 0)
 						{
 							//TODO: check this
-							//speed = Helper.FixFloat2ScreenX(spd);
+							speed = spd;
 							direction = Right;
 						}
 						else
 						{
 							//TODO: check this
-							//speed = Helper.FixFloat2ScreenX(-spd);
+							speed = -spd;
 							direction = Left;
 						}
 
 						currentPage++;
+						SetIsCurrentPage();
+						UpdatePagers();
 					}
 					else
 					{
 						//TODO: check this
-						//speed = Helper.FixFloat2ScreenX(spd);
+						speed = spd;
 						direction = Right;
 					}
 				}

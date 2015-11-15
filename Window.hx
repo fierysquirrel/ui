@@ -1,4 +1,4 @@
-package fs.ui;
+package;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;
@@ -6,7 +6,7 @@ import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.geom.Point;
 import flash.text.TextField;
-import fs.helper.MathHelper;
+
 
 /**
  * ...

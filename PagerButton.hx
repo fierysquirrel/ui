@@ -1,4 +1,4 @@
-package fs.ui;
+package;
 
 import aze.display.TileLayer;
 import aze.display.TileSprite;
@@ -48,7 +48,7 @@ class PagerButton extends Button
 	/*function OnPressed(e : MouseEvent)
 	{
 		Helper.PlaySound(Globals.CLICK_BUTTON_SOUND);
-		eventDispatcher.dispatchEvent(new GameScreenEvent(ScreenManager.EVENT_SCREEN_LOADED,new LevelSelectionScreen(eventDispatcher,Globals.SCREEN_WIDTH,Globals.SCREEN_HEIGHT,number)));
+		eventDispatcher.dispatchEvent(new GameScreenEvent(GameEvents.EVENT_SCREEN_LOADED,new LevelSelectionScreen(eventDispatcher,GraphicManager.GetWidth(),GraphicManager.GetHeight(),number)));
 	}*/
 	
 	public function GetNumber() : Int

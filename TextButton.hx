@@ -1,10 +1,9 @@
-package fs.ui;
+package;
 
 import aze.display.TileLayer;
 import flash.geom.Point;
 import flash.geom.ColorTransform;
 import flash.text.Font;
-import flash.text.TextField;
 
 /**
  * ...
@@ -16,14 +15,14 @@ class TextButton extends Button
 	static public var XML : String = "textbutton";
 	
 	private var text : String;
-	private var textField : TextField;
+	private var textField : Text;
 	private var activeTxtColor : ColorTransform;
     private var pressTxtColor : ColorTransform;
 	private var initialTextY : Float;
 	
-	public function new(id : String,tileLayer : TileLayer, x : Float,y : Float,onPressHandlerName : String,text : String = "",font : Font = null,size : Int = 0,activeColor : Int = 0xFFFFFF,pressColor : Int = 0xFFFFFF,activeSprite : String,pressSprite : String, letterSpacing : Int = 0) 
+	public function new(id : String,tileLayer : TileLayer, x : Float,y : Float,onPressHandlerName : String,text : String = "",fontId : String = null,size : Int = 0,activeColor : Int = 0xFFFFFF,pressColor : Int = 0xFFFFFF,activeSprite : String,pressSprite : String, letterSpacing : Int = 0,onSoundHandlerName : String = "") 
 	{
-		super(NAME,id, tileLayer, x, y, onPressHandlerName,activeColor,pressColor,activeSprite,pressSprite);
+		super(NAME,id, tileLayer, x, y, onPressHandlerName,activeColor,pressColor,activeSprite,pressSprite,onSoundHandlerName);
 		
 		this.text = text;
         this.activeTxtColor = new ColorTransform(activeRGBColor[0],activeRGBColor[1],activeRGBColor[2]);
@@ -31,10 +30,8 @@ class TextButton extends Button
 		
 		if (text != "")
 		{
-			//TODO: Corregir esto
-			//textField = Helper.CreateText(font.fontName, Helper.Translate(text), size, activeColor,letterSpacing,new Point(x,y));
+			textField = TextManager.CreateText(fontId, text, new Point(x, y), size, activeColor,letterSpacing);
 			tileLayer.view.addChild(textField);
-			initialX = this.y + textField.y;
 		}
 	}
 	

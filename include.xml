@@ -4,4 +4,5 @@
 	<haxelib name="actuate" />
 	<haxelib name="tilelayer" />
 	<haxelib name="helper" />
+	<haxelib name="textmanager" />
 </project>

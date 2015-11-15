@@ -1,4 +1,4 @@
-package fs.ui;
+package;
 
 import aze.display.TileLayer;
 import flash.text.TextField;

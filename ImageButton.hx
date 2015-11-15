@@ -1,4 +1,4 @@
-package fs.ui;
+package;
 
 import aze.display.TileLayer;
 import aze.display.TileSprite;
@@ -19,9 +19,9 @@ class ImageButton extends Button
 	
 	private var image : TileSprite;
 	
-	public function new(id : String,tileLayer : TileLayer,x : Float, y: Float, onPressHandlerName : String,activeColor : Int = 0xFFFFFF,pressColor : Int = 0xFFFFFF,activeSprite : String,pressSprite : String, imageSprite : String,flipX : Bool = false) 
+	public function new(id : String,tileLayer : TileLayer,x : Float, y: Float, onPressHandlerName : String,activeColor : Int = 0xFFFFFF,pressColor : Int = 0xFFFFFF,activeSprite : String,pressSprite : String, imageSprite : String,flipX : Bool = false,onSoundHandlerName : String = "") 
 	{
-		super(NAME, id, tileLayer, x, y, onPressHandlerName, activeColor, pressColor, activeSprite, pressSprite);
+		super(NAME, id, tileLayer, x, y, onPressHandlerName, activeColor, pressColor, activeSprite, pressSprite,onSoundHandlerName);
 		
 		if (imageSprite != "")
 		{

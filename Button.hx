@@ -1,11 +1,11 @@
-package fs.ui;
+package;
 
 import aze.display.TileLayer;
 import aze.display.TileSprite;
 import flash.geom.Point;
 import flash.events.MouseEvent;
 import flash.geom.ColorTransform;
-import fs.helper.MathHelper;
+
 
 /**
  * ...
@@ -26,9 +26,9 @@ class Button extends UIObject
 
 	private var downId : Int;
 	
-	public function new(name : String,id : String,tileLayer : TileLayer, x : Float,y : Float,onPressHandlerName : String = "",activeColor : Int = 0xffffff,pressColor : Int = 0xffffff,activeSpriteName : String = "",pressSpriteName : String = "") 
+	public function new(name : String,id : String,tileLayer : TileLayer, x : Float,y : Float,onPressHandlerName : String = "",activeColor : Int = 0xffffff,pressColor : Int = 0xffffff,activeSpriteName : String = "",pressSpriteName : String = "",onSoundHandlerName : String = "") 
 	{
-		super(TYPE,name,id,tileLayer,x, y,onPressHandlerName);
+		super(TYPE,name,id,tileLayer,x, y,onPressHandlerName,onSoundHandlerName);
 		
 		this.activeColor = activeColor;
 		this.pressColor = pressColor;
@@ -95,7 +95,7 @@ class Button extends UIObject
 		{
 			if (state == Active)
 			{
-				isDown = Helper.PointInsideRectangle(mousePos, pos, width, height);
+				isDown = MathHelper.PointInsideRectangle(mousePos, pos, width, height);
 				if(isDown)
 				{
 					ChangeState(Pressed);
@@ -122,7 +122,7 @@ class Button extends UIObject
 
 			if(containsCursorId)
 			{
-				isUp = Helper.PointInsideRectangle(mousePos, pos, width, height);
+				isUp = MathHelper.PointInsideRectangle(mousePos, pos, width, height);
 				downIds.remove(cursorId);
 				if(downIds.length <= 0 && isUp)
 				{

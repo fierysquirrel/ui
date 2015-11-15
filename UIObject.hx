@@ -1,11 +1,10 @@
-package fs.ui;
+package;
 
 import aze.display.behaviours.TileGroupTransform;
 import aze.display.TileGroup;
 import aze.display.TileLayer;
 import flash.events.EventDispatcher;
 import flash.geom.Point;
-import fs.helper.MathHelper;
 
 enum State
 {
@@ -40,6 +39,8 @@ class UIObject extends TileGroup
 	
 	private var onActionHandlerName : String;
 	
+	private var onSoundHandlerName : String;
+	
 	private var transform : TileGroupTransform;
 	
 	private var effect : Effect;
@@ -51,9 +52,10 @@ class UIObject extends TileGroup
 	private var zoomingIn : Bool;
 	
 	private var initialX : Float;
+	
 	private var initialY : Float;
 	
-	public function new(type : String,name : String,id : String, tileLayer : TileLayer, x : Float, y : Float,onActionHandlerName : String)
+	public function new(type : String,name : String,id : String, tileLayer : TileLayer, x : Float, y : Float,onActionHandlerName : String, onSoundHandlerName : String = "")
 	{
 		super(tileLayer);
 
@@ -65,7 +67,7 @@ class UIObject extends TileGroup
 		this.initialX = x;
 		this.initialY = y;
 		this.onActionHandlerName = onActionHandlerName;
-		//eventDispatcher = ScreenManager.EVENT_DISPATCHER;
+		this.onSoundHandlerName = onSoundHandlerName;
 		transform = new TileGroupTransform(this);
 		state = Active;
 		effect = None;
@@ -229,6 +231,12 @@ class UIObject extends TileGroup
 			if (!isCursorDown)
 			{
 				ChangeState(Active);
+				//If the object has any sound attatched to it
+				if (onSoundHandlerName != "")
+				{
+					Reflect.callMethod(caller, Reflect.field(caller, onSoundHandlerName), [this]);
+				}
+				
 				//We call the function that is defined in the inherited class and specified in the XML
 				if (onActionHandlerName != "")
 				{

@@ -1,9 +1,9 @@
-package fs.ui;
+package;
 
 import aze.display.TileLayer;
 import aze.display.TileSprite;
 import flash.events.MouseEvent;
-import fs.helper.MathHelper;
+
 
 /**
  * ...
