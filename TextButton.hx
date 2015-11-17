@@ -57,7 +57,7 @@ class TextButton extends Button
 	{
 		//TODO: Corregir esto
 		//textField.text = Helper.Translate(text);
-		textField.x = x - textField.width / 2;
+		//textField.x = x - textField.width / 2;
 	}
 	
 	override public function SetScale(value:Float):Void 
@@ -94,6 +94,6 @@ class TextButton extends Button
 	{
 		super.InitializeY();
 		
-		textField.y = y + initialTextY - textField.height/2;
+		//textField.y = y + initialTextY - textField.height/2;
 	}
 }
