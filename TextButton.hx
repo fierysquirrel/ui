@@ -30,7 +30,7 @@ class TextButton extends Button
 		
 		if (text != "")
 		{
-			textField = TextManager.CreateText(fontId, text, new Point(x, y), size, activeColor,letterSpacing);
+			textField = TextManager.CreateText(fontId, text, new Point(x, y), size, activeColor, letterSpacing);
 			tileLayer.view.addChild(textField);
 		}
 	}

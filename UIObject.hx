@@ -234,14 +234,28 @@ class UIObject extends TileGroup
 				//If the object has any sound attatched to it
 				if (onSoundHandlerName != "")
 				{
-					Reflect.callMethod(caller, Reflect.field(caller, onSoundHandlerName), [this]);
+					try
+					{
+						Reflect.callMethod(caller, Reflect.field(caller, onSoundHandlerName), [this]);
+					}
+					catch (e : String)
+					{
+						trace(e);
+					}
 				}
 				
 				//We call the function that is defined in the inherited class and specified in the XML
 				if (onActionHandlerName != "")
 				{
-					OnActionHandler();
-					Reflect.callMethod(caller, Reflect.field(caller, onActionHandlerName), [this]);
+					try
+					{
+						OnActionHandler();
+						Reflect.callMethod(caller, Reflect.field(caller, onActionHandlerName), [this]);
+					}
+					catch (e : String)
+					{
+						trace(e);
+					}
 				}
 			}
 		}

@@ -2,7 +2,6 @@ package;
 
 import aze.display.TileLayer;
 import aze.display.TileSprite;
-import cpp.net.Poll;
 import flash.display.BitmapData;
 import flash.events.MouseEvent;
 import flash.geom.Point;
