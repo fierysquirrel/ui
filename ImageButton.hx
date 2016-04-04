@@ -20,9 +20,9 @@ class ImageButton extends Button
 	
 	private var image : TileSprite;
 	
-	public function new(id : String,tileLayer : TileLayer,x : Float, y: Float, onPressHandlerName : String,activeColor : Int = 0xFFFFFF,pressColor : Int = 0xFFFFFF,activeSprite : String,pressSprite : String, imageSprite : String,flipX : Bool = false,onSoundHandlerName : String = "", imageOffset : Point = null) 
+	public function new(id : String,tileLayer : TileLayer,x : Float, y: Float, onPressHandlerName : String,activeColor : Int = 0xFFFFFF,pressColor : Int = 0xFFFFFF,activeSprite : String,pressSprite : String, imageSprite : String,flipX : Bool = false,onSoundHandlerName : String = "", imageOffset : Point = null, scale : Float = 1, effect : UIObject.Effect = null) 
 	{
-		super(NAME, id, tileLayer, x, y, onPressHandlerName, activeColor, pressColor, activeSprite, pressSprite,onSoundHandlerName);
+		super(NAME, id, tileLayer, x, y, onPressHandlerName, activeColor, pressColor, activeSprite, pressSprite,onSoundHandlerName,effect);
 		
 		if (imageSprite != "")
 		{
@@ -30,6 +30,8 @@ class ImageButton extends Button
 			image.r = activeRGBColor[0];
 			image.g = activeRGBColor[1];
 			image.b = activeRGBColor[2];
+			image.scale = scale;
+			
 			if (imageOffset != null)
 			{
 				image.x = imageOffset.x;

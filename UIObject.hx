@@ -17,6 +17,7 @@ enum Effect
 {
 	None;
 	Zoom;
+	Push;
 }
 
 /**
@@ -55,7 +56,9 @@ class UIObject extends TileGroup
 	
 	private var initialY : Float;
 	
-	public function new(type : String,name : String,id : String, tileLayer : TileLayer, x : Float, y : Float,onActionHandlerName : String, onSoundHandlerName : String = "")
+	private var initialScale : Float;
+	
+	public function new(type : String,name : String,id : String, tileLayer : TileLayer, x : Float, y : Float,onActionHandlerName : String, onSoundHandlerName : String = "", effect : Effect = null)
 	{
 		super(tileLayer);
 
@@ -70,7 +73,7 @@ class UIObject extends TileGroup
 		this.onSoundHandlerName = onSoundHandlerName;
 		transform = new TileGroupTransform(this);
 		state = Active;
-		effect = None;
+		this.effect = effect == null ? None : effect;
 		effectTime = 0;
 		zoomingIn = true;
 	}
@@ -145,6 +148,9 @@ class UIObject extends TileGroup
 	{
 		if (transform != null)
 		{
+			if (initialScale == 0)
+				initialScale = value;
+				
 			transform.scale = value;
 			transform.update();
 		}
@@ -157,6 +163,21 @@ class UIObject extends TileGroup
 			transform.alpha = value;
 			transform.update();
 		}
+	}
+	
+	public function SetVisibility(visibility : Bool) : Void
+	{
+		visible = visibility;
+	}
+	
+	public function Enable() : Void
+	{
+		state = State.Active;
+	}
+	
+	public function Disable() : Void
+	{
+		state = State.Disabled;
 	}
 	
 	public function LoadContent() : Void
@@ -211,7 +232,17 @@ class UIObject extends TileGroup
 		{
 			isDown = MathHelper.PointInsideRectangle(mousePos, pos, width, height);
 			if (isDown && !isCursorDown)
+			{
+				//Effect
+				if (effect == UIObject.Effect.Push)
+				{
+					//TODO: we have to make this a general behavior
+					if(initialScale != 0)
+						SetScale(initialScale * 0.95);
+				}
+						
 				ChangeState(Pressed);
+			}
 		}
 		
 		return isDown;
@@ -230,6 +261,14 @@ class UIObject extends TileGroup
 			isUp = MathHelper.PointInsideRectangle(mousePos, pos, width, height);
 			if (!isCursorDown)
 			{
+				//Effect
+				if (effect == UIObject.Effect.Push)
+				{
+					//TODO: we have to make this a general behavior
+					if (initialScale != 0)
+						SetScale(initialScale);
+				}
+				
 				ChangeState(Active);
 				//If the object has any sound attatched to it
 				if (onSoundHandlerName != "")
@@ -275,7 +314,16 @@ class UIObject extends TileGroup
 		{
 			isMove = MathHelper.PointOutsideRectangle(mousePos, pos, width, height);
 			if (isMove && !isCursorDown)
+			{
+				//Effect
+				if (effect == UIObject.Effect.Push)
+				{
+					//TODO: we have to make this a general behavior
+					if(initialScale != 0)
+						SetScale(initialScale);
+				}
 				ChangeState(Active);
+			}
 		}
 		
 		return isMove;
