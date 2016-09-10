@@ -44,7 +44,9 @@ class UIObject extends TileGroup
 	
 	private var transform : TileGroupTransform;
 	
-	private var effect : Effect;
+	private var actionEffect : Effect;
+	
+	private var highlightEffect : Effect;
 	
 	private var effectWaitTime : Float;
 	
@@ -58,7 +60,7 @@ class UIObject extends TileGroup
 	
 	private var initialScale : Float;
 	
-	public function new(type : String,name : String,id : String, tileLayer : TileLayer, x : Float, y : Float,onActionHandlerName : String, onSoundHandlerName : String = "", effect : Effect = null)
+	public function new(type : String,name : String,id : String, tileLayer : TileLayer, x : Float, y : Float,onActionHandlerName : String, onSoundHandlerName : String = "", actionEffect : Effect = null, highlightEffect : Effect = null)
 	{
 		super(tileLayer);
 
@@ -73,7 +75,8 @@ class UIObject extends TileGroup
 		this.onSoundHandlerName = onSoundHandlerName;
 		transform = new TileGroupTransform(this);
 		state = Active;
-		this.effect = effect == null ? None : effect;
+		this.highlightEffect = highlightEffect == null ? None : highlightEffect;
+		this.actionEffect = actionEffect == null ? None : actionEffect;
 		effectTime = 0;
 		zoomingIn = true;
 	}
@@ -103,9 +106,14 @@ class UIObject extends TileGroup
 		this.y = initialY;
 	}
 	
-	public function SetEffect(effect : Effect) : Void
+	public function SetActionEffect(effect : Effect) : Void
 	{
-		this.effect = effect;
+		this.actionEffect = effect;
+	}
+	
+	public function SetHighlightEffect(effect : Effect) : Void
+	{
+		this.highlightEffect = effect;
 	}
 	
 	public function GetName() : String
@@ -142,6 +150,11 @@ class UIObject extends TileGroup
 	{
 		while (children.length > 0)
 			removeChildAt(0);
+	}
+	
+	public function GetScale() : Float
+	{
+		return transform.scale;
 	}
 	
 	public function SetScale(value : Float) : Void
@@ -185,36 +198,37 @@ class UIObject extends TileGroup
 	
 	public function Update(gameTime : Float) : Void
 	{
-		switch(effect)
+		switch(highlightEffect)
 		{
+			//TODO: Generalizar esto en clases
 			case Zoom:
-				//TODO: change the structure of this
-				/*if (zoomingIn)
+				
+				if (zoomingIn)
 				{
-					if (transform.scale > Helper.GetFixScale() * 0.95)
+					if (transform.scale > GraphicManager.GetFixScale() * 0.9)
 					{
-						transform.scale -= Helper.GetFixScale() * 0.005;
+						transform.scale -= GraphicManager.GetFixScale() * 0.005;
 					}
 					else
 					{
-						transform.scale = Helper.GetFixScale() * 0.95;
+						transform.scale = GraphicManager.GetFixScale() * 0.9;
 						zoomingIn = false;
 					}
 				}
 				else
 				{
-					if (transform.scale < Helper.GetFixScale())
+					if (transform.scale < GraphicManager.GetFixScale())
 					{
-						transform.scale += Helper.GetFixScale() * 0.005;
+						transform.scale += GraphicManager.GetFixScale() * 0.005;
 					}
 					else
 					{
-						transform.scale = Helper.GetFixScale();
+						transform.scale = GraphicManager.GetFixScale();
 						zoomingIn = true;
 					}
 				}
 				
-				transform.update();*/
+				transform.update();
 				
 			default:
 		}
@@ -234,7 +248,7 @@ class UIObject extends TileGroup
 			if (isDown && !isCursorDown)
 			{
 				//Effect
-				if (effect == UIObject.Effect.Push)
+				if (actionEffect == UIObject.Effect.Push)
 				{
 					//TODO: we have to make this a general behavior
 					if(initialScale != 0)
@@ -262,7 +276,7 @@ class UIObject extends TileGroup
 			if (!isCursorDown)
 			{
 				//Effect
-				if (effect == UIObject.Effect.Push)
+				if (actionEffect == UIObject.Effect.Push)
 				{
 					//TODO: we have to make this a general behavior
 					if (initialScale != 0)
@@ -316,7 +330,7 @@ class UIObject extends TileGroup
 			if (isMove && !isCursorDown)
 			{
 				//Effect
-				if (effect == UIObject.Effect.Push)
+				if (actionEffect == UIObject.Effect.Push)
 				{
 					//TODO: we have to make this a general behavior
 					if(initialScale != 0)
@@ -327,6 +341,14 @@ class UIObject extends TileGroup
 		}
 		
 		return isMove;
+	}
+	
+	public function HandleKeyDownEvent(key : UInt) : Void
+	{
+	}
+	
+	public function HandleKeyUpEvent(key : UInt) : Void
+	{
 	}
 	
 	public function OnActionHandler() : Void

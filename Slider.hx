@@ -233,6 +233,7 @@ class Slider extends UIObject
 		this.currentPage = page;
 		this.x = initialX - pages[currentPage].x;
 		initialPos = this.x;
+		title.ChangeText(pages[currentPage].GetTitle());
 		SetIsCurrentPage();
 		UpdatePagers();
 	}

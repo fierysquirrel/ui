@@ -25,9 +25,9 @@ class CheckBox extends UIObject
 	private var activeRGBColor : Array<Float> ;
 	private var pressedRGBColor : Array<Float> ;
 	
-	public function new(name : String,id : String,tileLayer : TileLayer,x : Float,y : Float,checked : Bool,onCheckedHandlerName : String,onUncheckedHandlerName : String, activeColor : Int = 0xffffff, pressColor : Int = 0xffffff, activeSpriteName : String = "", pressSpriteName : String = "", effect : UIObject.Effect = null) 
+	public function new(name : String,id : String,tileLayer : TileLayer,x : Float,y : Float,checked : Bool,onCheckedHandlerName : String,onUncheckedHandlerName : String, activeColor : Int = 0xffffff, pressColor : Int = 0xffffff, activeSpriteName : String = "", pressSpriteName : String = "", actionEffect : UIObject.Effect = null,highlightEffect : UIObject.Effect = null) 
 	{
-		super(TYPE,name, id, tileLayer, x, y, "","",effect);
+		super(TYPE,name, id, tileLayer, x, y, "","",actionEffect,highlightEffect);
 		
 		this.checked = checked;
 		this.activeColor = activeColor;

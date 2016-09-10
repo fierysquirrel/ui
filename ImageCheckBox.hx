@@ -18,9 +18,9 @@ class ImageCheckBox extends CheckBox
 	private var checkSprite : TileSprite;
 	private var uncheckSprite : TileSprite;
 	
-	public function new(id : String,tileLayer : TileLayer,x : Float,y : Float,onCheckedHandlerName : String,onUncheckedHandlerName : String, checked : Bool,activeColor : Int = 0xFFFFFF, pressColor : Int = 0xFFFFFF, activeSprite : String, pressSprite : String,checkSpriteName : String,uncheckSpriteName : String, effect : UIObject.Effect = null) 
+	public function new(id : String,tileLayer : TileLayer,x : Float,y : Float,onCheckedHandlerName : String,onUncheckedHandlerName : String, checked : Bool,activeColor : Int = 0xFFFFFF, pressColor : Int = 0xFFFFFF, activeSprite : String, pressSprite : String,checkSpriteName : String,uncheckSpriteName : String, actionEffect : UIObject.Effect = null,highlightEffect : UIObject.Effect = null) 
 	{
-		super(NAME, id, tileLayer, x, y, checked, onCheckedHandlerName, onUncheckedHandlerName, activeColor, pressColor, activeSprite, pressSprite,effect);
+		super(NAME, id, tileLayer, x, y, checked, onCheckedHandlerName, onUncheckedHandlerName, activeColor, pressColor, activeSprite, pressSprite,actionEffect,highlightEffect);
 		
 		checkSprite = new TileSprite(tileLayer, checkSpriteName);
 		uncheckSprite = new TileSprite(tileLayer, uncheckSpriteName);

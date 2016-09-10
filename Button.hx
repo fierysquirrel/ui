@@ -26,9 +26,9 @@ class Button extends UIObject
 
 	private var downId : Int;
 	
-	public function new(name : String,id : String,tileLayer : TileLayer, x : Float,y : Float,onPressHandlerName : String = "",activeColor : Int = 0xffffff,pressColor : Int = 0xffffff,activeSpriteName : String = "",pressSpriteName : String = "",onSoundHandlerName : String = "", effect : UIObject.Effect = null) 
+	public function new(name : String,id : String,tileLayer : TileLayer, x : Float,y : Float,onPressHandlerName : String = "",activeColor : Int = 0xffffff,pressColor : Int = 0xffffff,activeSpriteName : String = "",pressSpriteName : String = "",onSoundHandlerName : String = "", actionEffect : UIObject.Effect = null,highlightEffect : UIObject.Effect = null) 
 	{
-		super(TYPE,name,id,tileLayer,x, y,onPressHandlerName,onSoundHandlerName,effect);
+		super(TYPE,name,id,tileLayer,x, y,onPressHandlerName,onSoundHandlerName,actionEffect,highlightEffect);
 		
 		this.activeColor = activeColor;
 		this.pressColor = pressColor;
