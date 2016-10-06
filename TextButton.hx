@@ -53,6 +53,11 @@ class TextButton extends Button
 		super.ChangeState(state);
 	}
 	
+	public function GetText() : String
+	{
+		return text;
+	}
+	
 	public function TranslateText() : Void
 	{
 		//TODO: Corregir esto
