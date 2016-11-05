@@ -5,6 +5,7 @@ import flash.geom.Point;
 import flash.geom.ColorTransform;
 import flash.text.Font;
 import flash.text.TextField;
+import flash.text.TextFormat;
 
 
 /**
@@ -19,6 +20,7 @@ class TextSelect extends Select
 	private var textField : TextField;
 	private var activeTxtColor : ColorTransform;
     private var pressTxtColor : ColorTransform;
+	private var size : Int;
 	
 	public function new(id : String, tileLayer : TileLayer, x : Float, y : Float,fontId : String, onPressHandlerName : String, options : Array<Option>,currentOption : Int, font : Font = null, size : Int = 0, activeColor : Int = 0xFFFFFF, pressColor : Int = 0xFFFFFF, activeSprite : String, pressSprite : String, letterSpacing : Int = 0) 
 	{
@@ -31,6 +33,7 @@ class TextSelect extends Select
         this.activeTxtColor = new ColorTransform(activeHexColor[0],activeHexColor[1],activeHexColor[2]);
         this.pressTxtColor = new ColorTransform(pressedHexColor[0], pressedHexColor[1], pressedHexColor[2]);
 		
+		this.size = size;
 		if (currentOption >= 0 && currentOption < options.length)
 		{
 			textField = TextManager.CreateText(fontId, options[currentOption].GetValue(),new Point(x,y),size, activeColor);
@@ -73,5 +76,12 @@ class TextSelect extends Select
 			currentOption = 0;
 		
 		textField.text = options[currentOption].GetValue();
+	}
+	
+	public function ChangeFont(fontId : String) : Void
+	{
+		//textField.setTextFormat(new TextFormat(fontId));
+		textField.defaultTextFormat = new TextFormat(fontId);
+		//textField = TextManager.CreateText(fontId, options[currentOption].GetValue(),new Point(x,y),size, activeColor);
 	}
 }
