@@ -17,12 +17,12 @@ class Select extends UIObject
 	private var pressColor : Int;
 	private var activeSprite : TileSprite;
 	private var pressSprite : TileSprite;
-	private var options : Array<Option>;
+	private var options : Array<TextOption>; //TODO: Ths has to be generalized
 	private var currentOption : Int;
 	private var activeRGBColor : Array<Float> ;
 	private var pressedRGBColor : Array<Float> ;
 	
-	public function new(name : String,id : String,tileLayer : TileLayer, x : Float,y : Float,onPressHandlerName : String,options : Array<Option>,currentOption : Int,activeColor : Int = 0xffffff,pressColor : Int = 0xffffff,activeSpriteName : String = "",pressSpriteName : String = "") 
+	public function new(name : String,id : String,tileLayer : TileLayer, x : Float,y : Float,onPressHandlerName : String,options : Array<TextOption>,currentOption : Int,activeColor : Int = 0xffffff,pressColor : Int = 0xffffff,activeSpriteName : String = "",pressSpriteName : String = "") 
 	{
 		super(TYPE,name,id,tileLayer,x, y,onPressHandlerName);
 		
