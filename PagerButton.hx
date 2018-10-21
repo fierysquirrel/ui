@@ -1,8 +1,5 @@
 package;
 
-import aze.display.TileLayer;
-import aze.display.TileSprite;
-
 /**
  * ...
  * @author Henry D. Fernández B.

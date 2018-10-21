@@ -1,7 +1,5 @@
 package;
 
-import aze.display.TileLayer;
-import aze.display.TileSprite;
 import flash.geom.Point;
 import flash.events.MouseEvent;
 import flash.geom.ColorTransform;

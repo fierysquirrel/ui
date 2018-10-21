@@ -1,8 +1,7 @@
 package;
 
-import aze.display.behaviours.TileGroupTransform;
-import aze.display.TileGroup;
-import aze.display.TileLayer;
+import openfl.display.TileContainer;
+import openfl.display.Tilemap;
 import flash.events.EventDispatcher;
 import flash.geom.Point;
 
@@ -24,7 +23,7 @@ enum Effect
  * ...
  * @author Henry D. Fernández B.
  */
-class UIObject extends TileGroup
+class UIObject extends TileContainer
 {
 	static public var EVENT_ACTION : String = "UIEventAction";
 
@@ -32,7 +31,7 @@ class UIObject extends TileGroup
 
 	private var name : String;
 	
-	private var id : String;
+	private var objID : String;
 	
 	private var state : State;
 	
@@ -42,7 +41,9 @@ class UIObject extends TileGroup
 	
 	private var onSoundHandlerName : String;
 	
-	private var transform : TileGroupTransform;
+	//private var transform : TileGroupTransform;
+	
+	private var scale : Float;
 	
 	private var actionEffect : Effect;
 	
@@ -60,20 +61,21 @@ class UIObject extends TileGroup
 	
 	private var initialScale : Float;
 	
-	public function new(type : String,name : String,id : String, tileLayer : TileLayer, x : Float, y : Float,onActionHandlerName : String, onSoundHandlerName : String = "", actionEffect : Effect = null, highlightEffect : Effect = null)
+	public function new(type : String,name : String,id : String, tileLayer : Tilemap, x : Float, y : Float,onActionHandlerName : String, onSoundHandlerName : String = "", actionEffect : Effect = null, highlightEffect : Effect = null)
 	{
-		super(tileLayer);
+		super();
 
 		this.type = type;
 		this.name = name;
-		this.id = id;
+		this.objID = id;
 		this.x = x;
 		this.y = y;
 		this.initialX = x;
 		this.initialY = y;
 		this.onActionHandlerName = onActionHandlerName;
 		this.onSoundHandlerName = onSoundHandlerName;
-		transform = new TileGroupTransform(this);
+		this.scale = __scaleX; //could be __scaleY
+		//transform = new TileGroupTransform(this);
 		state = Active;
 		this.highlightEffect = highlightEffect == null ? None : highlightEffect;
 		this.actionEffect = actionEffect == null ? None : actionEffect;
@@ -138,7 +140,7 @@ class UIObject extends TileGroup
 	
 	public function GetId() : String
 	{
-		return id;
+		return objID;
 	}
 	
 	public function ChangeState(state : State) : Void 
@@ -148,34 +150,36 @@ class UIObject extends TileGroup
 	
 	public function Clean() : Void
 	{
-		while (children.length > 0)
-			removeChildAt(0);
+		while (numTiles > 0)
+			removeTileAt(0);
 	}
 	
 	public function GetScale() : Float
 	{
-		return transform.scale;
+		return scale;
 	}
 	
 	public function SetScale(value : Float) : Void
 	{
-		if (transform != null)
-		{
+		//if (transform != null)
+		//{
 			if (initialScale == 0)
 				initialScale = value;
 				
-			transform.scale = value;
-			transform.update();
-		}
+			scale = value;
+			__scaleX = scale;
+			__scaleY = scale;
+			//transform.update();
+		//}
 	}
 	
 	public function SetAlpha(value : Float) : Void
 	{
-		if (transform != null)
-		{
-			transform.alpha = value;
-			transform.update();
-		}
+		//if (transform != null)
+		//{
+			alpha = value;
+			//transform.update();
+		//}
 	}
 	
 	public function SetVisibility(visibility : Bool) : Void
@@ -198,6 +202,7 @@ class UIObject extends TileGroup
 	
 	public function Update(gameTime : Float) : Void
 	{
+	
 		switch(highlightEffect)
 		{
 			//TODO: Generalizar esto en clases
@@ -205,30 +210,30 @@ class UIObject extends TileGroup
 				
 				if (zoomingIn)
 				{
-					if (transform.scale > GraphicManager.GetFixScale() * 0.9)
+					if (scale > GraphicManager.GetFixScale() * 0.9)
 					{
-						transform.scale -= GraphicManager.GetFixScale() * 0.005;
+						scale -= GraphicManager.GetFixScale() * 0.005;
 					}
 					else
 					{
-						transform.scale = GraphicManager.GetFixScale() * 0.9;
+						scale = GraphicManager.GetFixScale() * 0.9;
 						zoomingIn = false;
 					}
 				}
 				else
 				{
-					if (transform.scale < GraphicManager.GetFixScale())
+					if (scale < GraphicManager.GetFixScale())
 					{
-						transform.scale += GraphicManager.GetFixScale() * 0.005;
+						scale += GraphicManager.GetFixScale() * 0.005;
 					}
 					else
 					{
-						transform.scale = GraphicManager.GetFixScale();
+						scale = GraphicManager.GetFixScale();
 						zoomingIn = true;
 					}
 				}
 				
-				transform.update();
+				//transform.update();
 				
 			default:
 		}
@@ -244,7 +249,7 @@ class UIObject extends TileGroup
 		
 		if (state != Disabled)
 		{
-			isDown = MathHelper.PointInsideRectangle(mousePos, pos, width, height);
+			isDown = MathHelper.PointInsideRectangle(mousePos, pos, rect.width, rect.height);
 			if (isDown && !isCursorDown)
 			{
 				//Effect
@@ -272,7 +277,7 @@ class UIObject extends TileGroup
 		
 		if (state == Pressed)
 		{
-			isUp = MathHelper.PointInsideRectangle(mousePos, pos, width, height);
+			isUp = MathHelper.PointInsideRectangle(mousePos, pos, rect.width, rect.height);
 			if (!isCursorDown)
 			{
 				//Effect
@@ -326,7 +331,7 @@ class UIObject extends TileGroup
 		
 		if (state == Pressed)
 		{
-			isMove = MathHelper.PointOutsideRectangle(mousePos, pos, width, height);
+			isMove = MathHelper.PointOutsideRectangle(mousePos, pos,rect.width, rect.height);
 			if (isMove && !isCursorDown)
 			{
 				//Effect
