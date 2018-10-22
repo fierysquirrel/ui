@@ -1,11 +1,11 @@
 package;
 
-import aze.display.TileLayer;
 import flash.geom.Point;
 import flash.geom.ColorTransform;
 import flash.text.Font;
 import flash.text.TextField;
 import flash.text.TextFormat;
+import openfl.display.Tilemap;
 
 
 /**
@@ -21,7 +21,7 @@ class TextSelect extends Select
     private var pressTxtColor : ColorTransform;
 	private var size : Int;
 	
-	public function new(id : String, tileLayer : TileLayer, x : Float, y : Float,fontId : String, onPressHandlerName : String, options : Array<TextOption>,currentOption : Int, font : Font = null, size : Int = 0, activeColor : Int = 0xFFFFFF, pressColor : Int = 0xFFFFFF, activeSprite : String, pressSprite : String, letterSpacing : Int = 0) 
+	public function new(id : String, tileLayer : Tilemap, x : Float, y : Float,fontId : String, onPressHandlerName : String, options : Array<TextOption>,currentOption : Int, font : Font = null, size : Int = 0, activeColor : Int = 0xFFFFFF, pressColor : Int = 0xFFFFFF, activeSprite : String, pressSprite : String, letterSpacing : Int = 0) 
 	{
 		super(NAME,id, tileLayer, x, y, onPressHandlerName,options,currentOption,activeColor,pressColor,activeSprite,pressSprite);
 		

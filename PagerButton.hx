@@ -1,5 +1,7 @@
 package;
 
+import openfl.display.Tilemap;
+
 /**
  * ...
  * @author Henry D. Fernández B.
@@ -22,7 +24,7 @@ class PagerButton extends Button
 	 * */
 	private var imgData:Array<Float>;
 	
-	public function new(id : String,tileLayer : TileLayer,x : Float, y : Float,number : Int,selected : Bool,onPressHandlerName : String) 
+	public function new(id : String,tileLayer : Tilemap,x : Float, y : Float,number : Int,selected : Bool,onPressHandlerName : String) 
 	{
 		super(NAME, id, tileLayer, x, y, onPressHandlerName, 0xffffff, 0xffffff, "pager");
 		

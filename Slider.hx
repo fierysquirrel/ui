@@ -1,10 +1,9 @@
 package;
 
-import aze.display.behaviours.TileGroupTransform;
-import aze.display.TileGroup;
-import aze.display.TileLayer;
+
 import flash.geom.Point;
 import flash.text.TextField;
+import openfl.display.Tilemap;
 
 enum Direction
 {
@@ -42,7 +41,7 @@ class Slider extends UIObject
 	private var pagers : Array<PagerButton>;
 	private var previousElement : Int;
 	private var mousePos : Float;
-	private var groupTrans : TileGroupTransform;
+	//private var groupTrans : TileGroupTransform;
 	private var speed : Float;
 	private var currentPage: Int;
 	private var hasPager : Bool;
@@ -54,7 +53,7 @@ class Slider extends UIObject
 	private var downCursor : Int;
 	private var title : SliderTitle;
 	
-	public function new(id : String,tileLayer : TileLayer, x : Float,y : Float,pages : Array<SliderPage>,onPressHandlerName : String = "",minLimit : Float,maxLimit : Float,minSpeed : Float,maxSpeed : Float,movingThreshold : Float,title : SliderTitle = null, initialPage : Int = 1,hasPager : Bool = false, pagerX : Float = 0,pagerY : Float = 0, pagerSeparation : Float = 0) 
+	public function new(id : String,tileLayer : Tilemap, x : Float,y : Float,pages : Array<SliderPage>,onPressHandlerName : String = "",minLimit : Float,maxLimit : Float,minSpeed : Float,maxSpeed : Float,movingThreshold : Float,title : SliderTitle = null, initialPage : Int = 1,hasPager : Bool = false, pagerX : Float = 0,pagerY : Float = 0, pagerSeparation : Float = 0) 
 	{
 		super(NAME,NAME, id, tileLayer, x, y, onPressHandlerName);
 		
@@ -107,7 +106,7 @@ class Slider extends UIObject
 			tileLayer.addChild(pagersGroup);
 		}
 			
-		groupTrans = new TileGroupTransform(this);
+		//groupTrans = new TileGroupTransform(this);
 		
 		speed = 0;
 		currentPage = initialPage;

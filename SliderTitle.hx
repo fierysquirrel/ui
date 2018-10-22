@@ -1,7 +1,7 @@
 package;
 
 import flash.geom.Point;
-import aze.display.TileLayer;
+import openfl.display.Tilemap;
 
 /**
  * ...
@@ -22,7 +22,7 @@ class SliderTitle extends Text
 		//parent.addChild(backText);
 	}
 	
-	public function LoadContent(tilelayer : TileLayer) : Void
+	public function LoadContent(tilelayer : Tilemap) : Void
 	{
 		tilelayer.view.addChild(backText);
 		tilelayer.view.addChild(this);

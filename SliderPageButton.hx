@@ -1,7 +1,7 @@
 package;
 
-import aze.display.TileLayer;
-import aze.display.TileSprite;
+import openfl.display.Tilemap;
+import openfl.display.Tile;
 
 /**
  * ...
@@ -13,8 +13,8 @@ class SliderPageButton extends UIObject
 
 	private var number : Int;
 	private var locked : Bool;
-	private var backSprite : TileSprite;
-	private var lockSprite : TileSprite;
+	private var backSprite : Tile;
+	private var lockSprite : Tile;
 	private var isCurrentElement : Bool;
 	private var currentElementEffect : Bool;
 	private var frameSprite : TileSprite;
@@ -25,7 +25,7 @@ class SliderPageButton extends UIObject
 	 * */
 	private var imgData:Array<Float>;
 	
-	public function new(name : String,id : String,tileLayer : TileLayer, back : String,frame : String,x : Float, y : Float,number : Int, locked : Bool,lockName : String,onPressHandlerName : String) 
+	public function new(name : String,id : String,tileLayer : Tilemap, back : String,frame : String,x : Float, y : Float,number : Int, locked : Bool,lockName : String,onPressHandlerName : String) 
 	{
 		super(Button.TYPE,name, id, tileLayer, x, y, onPressHandlerName);
 		
@@ -34,7 +34,7 @@ class SliderPageButton extends UIObject
 		
 		if (back != "")
 		{
-			backSprite = new TileSprite(tileLayer, back);
+			backSprite = new Tile(tileLayer, back);
 			addChild(backSprite);
 			transform.addProxy(backSprite);
 		}

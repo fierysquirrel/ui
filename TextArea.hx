@@ -1,11 +1,11 @@
 package;
 
-import aze.display.TileLayer;
 import flash.text.TextField;
 import flash.events.KeyboardEvent;
 import flash.ui.Keyboard;
 import flash.text.TextFormat;
 import flash.events.MouseEvent;
+import openfl.display.Tilemap;
 
 /**
  * ...
@@ -21,7 +21,7 @@ class TextArea extends UIObject
 	private var isFocused : Bool;
 	private var textField : TextField;
 	
-	public function new(id : String,tileLayer : TileLayer,x : Float,y:Float,width:Float,height : Float)
+	public function new(id : String,tileLayer : Tilemap,x : Float,y:Float,width:Float,height : Float)
 	{
 		super(TYPE,NAME,id,tileLayer,x, y,"");
 		

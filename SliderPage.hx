@@ -1,10 +1,8 @@
 package;
 
-import aze.display.behaviours.TileGroupTransform;
-import aze.display.TileGroup;
-import aze.display.TileLayer;
 import flash.geom.Point;
 import flash.text.TextField;
+import openfl.display.Tilemap;
 
 /**
  * ...
@@ -16,11 +14,11 @@ class SliderPage extends TileGroup
 	static public var XML : String = "page";
 	private var elements : Array<SliderPageButton>;
 	private var number : Int;
-	private var trans : TileGroupTransform;
+	//private var trans : TileGroupTransform;
 	private var title : String;
 	private var slider : Slider;
 	
-	public function new(number : Int,tileLayer : TileLayer, x : Float, y : Float, title : String = "") 
+	public function new(number : Int,tileLayer : Tilemap, x : Float, y : Float, title : String = "") 
 	{
 		super(tileLayer);
 		
@@ -29,7 +27,7 @@ class SliderPage extends TileGroup
 		this.x = x;
 		this.y = y;
 		elements = new Array<SliderPageButton>();
-		trans = new TileGroupTransform(this);
+		//trans = new TileGroupTransform(this);
 	}
 	
 	public function SetSlider(slider:Slider) :Void

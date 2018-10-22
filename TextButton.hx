@@ -1,9 +1,9 @@
 package;
 
-import aze.display.TileLayer;
 import flash.geom.Point;
 import flash.geom.ColorTransform;
 import flash.text.Font;
+import openfl.display.Tilemap;
 
 /**
  * ...
@@ -20,7 +20,7 @@ class TextButton extends Button
     private var pressTxtColor : ColorTransform;
 	private var initialTextY : Float;
 	
-	public function new(id : String,tileLayer : TileLayer, x : Float,y : Float,onPressHandlerName : String,text : String = "",fontId : String = null,size : Int = 0,activeColor : Int = 0xFFFFFF,pressColor : Int = 0xFFFFFF,activeSprite : String,pressSprite : String, letterSpacing : Int = 0,onSoundHandlerName : String = "") 
+	public function new(id : String,tileLayer : Tilemap, x : Float,y : Float,onPressHandlerName : String,text : String = "",fontId : String = null,size : Int = 0,activeColor : Int = 0xFFFFFF,pressColor : Int = 0xFFFFFF,activeSprite : String,pressSprite : String, letterSpacing : Int = 0,onSoundHandlerName : String = "") 
 	{
 		super(NAME,id, tileLayer, x, y, onPressHandlerName,activeColor,pressColor,activeSprite,pressSprite,onSoundHandlerName);
 		

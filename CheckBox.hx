@@ -1,10 +1,12 @@
 package;
 
-import aze.display.TileLayer;
+
 import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.geom.Rectangle;
-import aze.display.TileSprite;
+
+import openfl.display.Tilemap;
+import openfl.display.Tile;
 
 
 /**
@@ -18,14 +20,14 @@ class CheckBox extends UIObject
 	private var checked : Bool;
 	private var activeColor : Int;
 	private var pressColor : Int;
-	private var activeSprite : TileSprite;
+	private var activeSprite : Tile;
 	private var pressSprite : TileSprite;
 	private var onCheckedHandlerName : String;
 	private var onUncheckedHandlerName : String;
 	private var activeRGBColor : Array<Float> ;
 	private var pressedRGBColor : Array<Float> ;
 	
-	public function new(name : String,id : String,tileLayer : TileLayer,x : Float,y : Float,checked : Bool,onCheckedHandlerName : String,onUncheckedHandlerName : String, activeColor : Int = 0xffffff, pressColor : Int = 0xffffff, activeSpriteName : String = "", pressSpriteName : String = "", actionEffect : UIObject.Effect = null,highlightEffect : UIObject.Effect = null) 
+	public function new(name : String,id : String,tileLayer : Tilemap,x : Float,y : Float,checked : Bool,onCheckedHandlerName : String,onUncheckedHandlerName : String, activeColor : Int = 0xffffff, pressColor : Int = 0xffffff, activeSpriteName : String = "", pressSpriteName : String = "", actionEffect : UIObject.Effect = null,highlightEffect : UIObject.Effect = null) 
 	{
 		super(TYPE,name, id, tileLayer, x, y, "","",actionEffect,highlightEffect);
 		

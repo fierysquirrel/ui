@@ -1,6 +1,5 @@
 package;
 
-import aze.display.TileLayer;
 import flash.text.TextField;
 import flash.events.KeyboardEvent;
 import flash.ui.Keyboard;

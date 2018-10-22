@@ -1,10 +1,10 @@
 package;
 
-import aze.display.TileLayer;
 import flash.geom.ColorTransform;
 import flash.geom.Point;
 import flash.text.Font;
 import flash.text.TextField;
+import openfl.display.Tilemap;
 
 /**
  * ...
@@ -25,7 +25,7 @@ class TextCheckBox extends CheckBox
 	private var textField : TextField;
 	private var translate : Bool;
 	
-	public function new(id : String, tileLayer : TileLayer, x : Float, y : Float, onCheckedHandlerName : String, onUncheckedHandlerName : String, checked : Bool, checkedText : String = "", uncheckedText : String = "", font : Font = null, size : Int = 0, activeColor : Int = 0xFFFFFF, pressColor : Int = 0xFFFFFF, activeSprite : String, pressSprite : String, letterSpacing : Int = 0, translate : Bool = true) 
+	public function new(id : String, tileLayer : Tilemap, x : Float, y : Float, onCheckedHandlerName : String, onUncheckedHandlerName : String, checked : Bool, checkedText : String = "", uncheckedText : String = "", font : Font = null, size : Int = 0, activeColor : Int = 0xFFFFFF, pressColor : Int = 0xFFFFFF, activeSprite : String, pressSprite : String, letterSpacing : Int = 0, translate : Bool = true) 
 	{
 		super(NAME, id, tileLayer, x, y,checked,onCheckedHandlerName,onUncheckedHandlerName,activeColor,pressColor,activeSprite,pressSprite);
 		

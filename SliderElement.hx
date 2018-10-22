@@ -1,8 +1,7 @@
 package;
 
-import aze.display.TileLayer;
-import aze.display.TileSprite;
-
+import openfl.display.Tilemap;
+import openfl.display.Tile;
 
 /**
  * ...
@@ -19,14 +18,14 @@ class SliderElement extends UIObject
 	static public var XML : String = "element";
 	
 	private var spriteName : String;
-	private var sprite : TileSprite;
+	private var sprite : Tile;
 	
-	public function new(id : String,tileLayer : TileLayer,x : Float,y : Float,spriteName : String,onPressHandlerName : String) 
+	public function new(id : String,tileLayer : Tilemap,x : Float,y : Float,spriteName : String,onPressHandlerName : String) 
 	{
 		super(TYPE,NAME, id, tileLayer, x, y, onPressHandlerName);
 		
 		this.spriteName = spriteName;
-		this.sprite = new TileSprite(tileLayer, spriteName);
+		this.sprite = new Tile(tileLayer, spriteName);
 		addChild(sprite);
 	}
 }
